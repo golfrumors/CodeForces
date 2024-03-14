@@ -1,26 +1,26 @@
 #include <iostream>
 
 int main() {
-    int d, minTime, maxTime, sumTime = 0;
-
-    std::cin >> d >> minTime >> maxTime;
-
+    int d, sumTime;
+    std::cin >> d >> sumTime;
+    int minTime[d], maxTime[d];
+    int minSum = 0, maxSum = 0;
     for (int i = 0; i < d; i++) {
-        int time;
-        std::cin >> time;
-        sumTime += time;
-    }
+		std::cin >> minTime[i] >> maxTime[i];
+		minSum += minTime[i];
+		maxSum += maxTime[i];
+	}
 
-    if (sumTime < minTime * d || sumTime > maxTime * d) {
-        std::cout << "NO";
+    if (sumTime < minSum || sumTime > maxSum) {
+	std::cout << "NO";
     } else {
-        std::cout << "YES\n";
-        int remainingTime = sumTime;
-        for (int i = 0; i < d; i++) {
-            int time = std::min(maxTime, remainingTime - minTime * (d - i - 1));
-            remainingTime -= time;
-            std::cout << time << " ";
-        }
+	std::cout << "YES\n";
+	int remainingTime = sumTime - minSum;
+	for (int i = 0; i < d; i++) {
+	    int time = std::min(remainingTime, maxTime[i] - minTime[i]);
+	    std::cout << minTime[i] + time << " ";
+	    remainingTime -= time;
+	}
     }
 
     return 0;
