@@ -1,21 +1,20 @@
 #include <iostream>
-#include <sstream>
-#include <algorithm>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 int main() {
-    vector<string> res;
-    stringstream ss;
-    string s, in;
-    cin >> in;
-    while(getline(ss, in, '+'))
-    	res.push_back(in);
-
-    sort(res.begin(), res.end());
-    for(int i = 0; i < res.size(); i++) {
-		cout << res[i];
-		if(i != res.size() - 1) cout << "+";
+    string s;
+    cin >> s;
+    vector<int> v;
+    for (int i = 0; i < s.size(); i++)
+	if (s[i] != '+')
+    	    v.push_back(s[i] - '0');
+    sort(v.begin(), v.end());
+    for (int i = 0; i < v.size(); i++) {
+    	cout << v[i];
+    	if (i != v.size() - 1)
+    		cout << "+";
     }
 }
