@@ -1,24 +1,30 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 int main()
 {
-    int n, sum = 0;
+    int i, n, m, b, c, sum, a[200];
     cin >> n;
-    int a[n];
-    for (int i = 0; i < n; i++) {
-    	cin >> a[i];
-	sum += a[i];
+
+    for(i = 0, sum = 0; i < n; i++)
+    {
+        cin >> a[i];
+        sum += a[i];
     }
-    int half = sum / 2;
-    int sum1 = 0;
-    int count = 0;
-    for (int i = 0; i < n; i++)
-    	if (sum1 <= half)
-	{
-    	    sum1 += a[i];
-    	    count++;
-    	}
-    cout << count;
+
+    sort(a, a+n);
+
+    sum /= 2;
+
+    for(i = n-1, c = 0, b = 0; i >= 0; b++, i--)
+    {
+        c += a[i];
+        if (c > sum)
+            break;
+    }
+    cout << (b + 1);
+
+    return 0;
 }

@@ -1,27 +1,20 @@
 #include <iostream>
-#include <stdio.h>
+
 using namespace std;
 
-int main(){
+int main()
+{
+    int n;
+    cin >> n;
 
-bool flag = false;
- int n;
- cin>>n;
- if(n<4){
- cout<<"-1";
- return 0;
- }
- for (int i = n / 7; i>= 0; i --) {
- int j = n - (i * 7);
- if (j% 4 == 0) {
- flag = true;
- for (int P = 0; P <j / 4; P ++) cout<<4;
- for (int Q = 0; Q <i; Q ++) cout<<7<<endl;
- break;
-
-}
-
-}
- if(!flag) cout<<-1<<endl;
-
+    int arr[13] = {4, 7, 44, 47, 74, 77, 444, 447, 474, 477, 777, 774, 744};
+    for(int i = 0; i < 13; ++i)
+    {
+        if(n % arr[i] == 0)
+            {
+                cout << "YES";
+                return 0;
+            }
+    }
+    cout << "NO";
 }
