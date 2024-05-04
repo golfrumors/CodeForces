@@ -1,59 +1,55 @@
+// yes i did just resubmit it,
+// yes it accepted it, and didn't run out of runtime
+// yes for the 3rd part i ran out of runtime and i'm not bothering with postorder
+
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-const int MAX_N = 2e5 + 5;
+struct TreeNode {
+    vector<int> neighbors;
+    bool visited = false;
+};
 
-vector<int> adj[MAX_N]; // Adjacency list representation of the tree
-bool visited[MAX_N];    // Boolean array to mark visited nodes
-bool win[MAX_N];        // Whether player can win from the current node
-
-// Function to recursively determine whether a player can win from a given node
-bool canWin(int node) {
-    visited[node] = true;
-    win[node] = false; // Assume the player cannot win initially
-
-    for (int neighbor : adj[node]) {
-        if (!visited[neighbor]) {
-            if (!canWin(neighbor)) {
-                // If the opponent cannot win from the neighbor, the current player can win from this node
-                win[node] = true;
-            }
+bool canWin(TreeNode tree[], int currentNode) {
+    tree[currentNode].visited = true;
+    bool result = false;
+    for (int neighbor : tree[currentNode].neighbors) {
+        if (!tree[neighbor].visited) {
+            result |= !canWin(tree, neighbor);
         }
     }
-
-    return win[node];
+    return result;
 }
 
 int main() {
     int n, t;
     cin >> n >> t;
 
-    // Read the tree edges
-    for (int i = 0; i < n - 1; ++i) {
+    TreeNode tree[n + 1];
+    for (int i = 1; i < n; ++i) {
         int u, v;
         cin >> u >> v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+        tree[u].neighbors.push_back(v);
+        tree[v].neighbors.push_back(u);
     }
 
-    // Read the starting nodes for each round and determine the winners
-    for (int i = 0; i < t; ++i) {
-        int startNode;
-        cin >> startNode;
+    for (int round = 0; round < t; ++round) {
+        int startingNode;
+        cin >> startingNode;
 
-        // Reset the visited array
-        fill(visited, visited + n + 1, false);
+        bool ronWins = canWin(tree, startingNode);
 
-        // Determine whether player 1 can win from the starting node
-        bool player1Wins = canWin(startNode);
-
-        // Output the result
-        if (player1Wins) {
-            cout << "Player 1 wins" << endl;
+        if (ronWins) {
+            cout << "Ron";
         } else {
-            cout << "Player 2 wins" << endl;
+            cout << "Hermione";
+        }
+
+        for (int i = 1; i <= n; ++i) {
+            tree[i].visited = false;
         }
     }
 
