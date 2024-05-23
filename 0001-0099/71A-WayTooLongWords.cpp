@@ -15,13 +15,9 @@ int main()
    {
 	cin >> s;
 	if (s.length() > 10)
-	{
 	    v.push_back(s[0] + to_string(s.length() - 2) + s[s.length() - 1] + "\n");
-	}
 	else
-	{
 	    v.push_back(s + "\n");
-	}
    }
    
    for (string s : v)
