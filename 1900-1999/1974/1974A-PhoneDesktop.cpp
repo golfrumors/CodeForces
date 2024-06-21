@@ -1,15 +1,14 @@
-#include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-
 int main() {
-    int t;
-    cin >> t;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t; cin >> t;
 
     while (t--) {
-        int x, y;
-        cin >> x >> y;
+        int x, y; cin >> x >> y;
 
         int res = 0;
 
