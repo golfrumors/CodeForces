@@ -1,71 +1,56 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-#define int long long
-map<pair<int,int>,int> M;
-int ifV;
 
-pair<int,int> find(int ind,vector<vector<int>> &adjacency,vector<int> &H,int par){
-  
-  if(H[ind]!=-1)
-    return {H[ind],0};
-  
-  ifV++;
-  H[ind] = ifV;
-  
-  int res = H[ind], sum = 1;
-  
-  for(auto &val:adjacency[ind]){
-    if(val==par) continue;
-    pair<int,int> adjPair = find(val,adjacency,H,ind);
-    int x = adjPair.first,y = adjPair.second;
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    for (int &x : a) cin >> x;
     
-    sum+=y;
-    
-    if(x<=H[ind]){
-      res = min(res,x);
+    int q;
+    cin >> q;
+    vector<pair<int, int>> queries(q);
+    for (auto &p : queries) cin >> p.first >> p.second;
+
+    auto find_min_subarray = [&]() {
+        int l = -1, r = -1;
+        for (int i = 0; i < n - 1; ++i) {
+            if (a[i] > a[i + 1]) {
+                l = i;
+                break;
+            }
+        }
+        if (l == -1) return make_pair(-1, -1);
+        for (int i = n - 1; i > 0; --i) {
+            if (a[i] < a[i - 1]) {
+                r = i;
+                break;
+            }
+        }
+        int min_val = *min_element(a.begin() + l, a.begin() + r + 1);
+        int max_val = *max_element(a.begin() + l, a.begin() + r + 1);
+        while (l > 0 && a[l - 1] > min_val) --l;
+        while (r < n - 1 && a[r + 1] < max_val) ++r;
+        return make_pair(l + 1, r + 1);
+    };
+
+    auto result = find_min_subarray();
+    cout << result.first << " " << result.second << endl;
+
+    for (auto [pos, val] : queries) {
+        a[pos - 1] = val;
+        result = find_min_subarray();
+        cout << result.first << " " << result.second << endl;
     }
-    else{
-      M[{ind,val}] = y; 
-    }
-  }
-  
-  H[ind] = res;
-  return {res,sum};
 }
 
-void solve()
-{
-  int n,m; cin >> n >> m;
-  
-  vector<vector<int>> adjacency(n);
-  
-  while(m--){
-    int u,v; cin >> u >> v;
-    u--;
-    v--;
-    adjacency[u].push_back(v);
-    adjacency[v].push_back(u);
-  }
-  M.clear();
-  ifV = 0;
-  vector<int> H(n,-1);
-  pair<int,int> adjPair = find(0,adjacency,H,-1);
-  
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
 
-  int res = n*(n-1)/2;
-  for(auto &val:M){
-    int l = val.second,r = n - val.second;
-    res = min(res, (l*(l-1) + (r*(r-1)))/2);
-  }
-  
-  cout << res << endl;
-}
-
-signed main() 
-{
-    int t; cin >> t;
-    while(t--)
-      solve();
-
+    int t;
+    cin >> t;
+    while (t--) solve();
+    
     return 0;
 }
