@@ -2,59 +2,28 @@
 
 using namespace std;
 
-#define int long long
+int main()
+{
+	ios_base::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
 
-int solve(int x, int y, int k) {
-    int m = x % y;
-    m = y - m;
-    
-    if (k < m)
-        return x + k;
-    
-    if (k == m) {
-        x += k;
-        while (x % y == 0)
-            x /= y;
-            
-        return x;
-    }
+	int t; cin >> t;
+	while(t--)
+	{
+		long long x, y, k; cin >> x >> y >> k;
+		while (k > 0 && x != 1) {
+			long long red = (x / y + 1) * y - x;
+					red = max(1ll, red);
+					red = min(red, k);
+					x += red;
+			while (x % y == 0) {
+				x /= y;
+			}
+			k -= red;
+		}
+		cout << x + k % (y - 1) << '\n';
+	}
 
-    while (true) {
-        int N = m;
-        if (x == 1)
-            break;
-            
-        if (k >= N) {
-            k -= N;
-            x += N;
-            while (x % y == 0)
-                x /= y;
-                
-            m = y - x % y;
-        } else {
-            x += k;
-            k = 0;
-            break;
-        }
-    }
-    if (k != 0)
-        return k % (y - 1) + 1;
-
-    return x;
-}
-
-signed main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int t; cin >> t;
-
-    while (t--) {
-        int x, y, k;
-        cin >> x >> y >> k;
-
-        cout << solve(x, y, k) << endl;
-    }
-
-    return 0;
+	return 0;
 }

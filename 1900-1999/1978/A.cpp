@@ -1,21 +1,21 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
 
-int main() {
-    int t;
-    std::cin >> t;
-    while (t--) {
-        int n;
-        std::cin >> n;
-        std::vector<int> books(n);
-        for (int i = 0; i < n; ++i) {
-            std::cin >> books[i];
+using namespace std;
+
+int main()
+{
+    int t; cin >> t;
+    while(t--)
+    {
+        int n; cin >> n;
+        vector<int> a(n);
+        for(int &i : a) cin >> i;
+        int res = 0;
+        for(int i = 0; i < n - 1; ++i)
+        {
+            int p = a[i] + a[n - 1];
+            res = max(res, p);
         }
-        std::sort(books.begin(), books.end());
-        int maxPow = books[n-1] + books[n-2];
-	std::cout << maxPow << std::endl;
+        cout << res << endl;
     }
-    return 0;
 }
-
